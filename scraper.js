@@ -1,0 +1,32 @@
+const { loader } = require("./utils/loader");
+
+const getListings = ($, listings) => {
+  $("div.result-info").each((index, el) => {
+    const date = new Date(
+      $(el).find("time.result-date").attr("datetime")
+    ).toDateString();
+    const neighborhoodData = $(el).find(".result-hood").text();
+    const neighborhood = neighborhoodData.slice(2, neighborhoodData.length - 1);
+    const anchor = $(el).find("a.result-title");
+    listings.push({
+      title: anchor.text(),
+      link: anchor.attr("href"),
+      date: date,
+      neighborhood: neighborhood,
+    });
+  });
+};
+
+exports.getAllListings = async (page) => {
+  let listings = [];
+  let $ = await loader(page);
+  getListings($, listings);
+  //   console.log(parseInt($("span.totalcount").text().slice(0, 3)));
+  if (listings.length < parseInt($("span.totalcount").text().slice(0, 3))) {
+    await page.goto(`${page.url()}?s=120`);
+    // await page.waitForNavigation();
+    $ = await loader(page);
+    getListings($, listings);
+    return listings;
+  }
+};
