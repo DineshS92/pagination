@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const { connectToDB } = require("./utils/db");
 const { getAllListings } = require("./scraper");
 
-const url = `https://sfbay.craigslist.org/search/sof`;
+const url = `https://sfbay.craigslist.org/search/hsw`;
 
 (async function () {
   await connectToDB();
