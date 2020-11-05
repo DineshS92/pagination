@@ -21,16 +21,9 @@ exports.getAllListings = async (page) => {
   let listings = [];
   let $ = await loader(page);
   let url = `${page.url()}?s=${listings.length}`;
-  //   getListings($, listings);
   console.log(parseInt($("span.totalcount").text().slice(0, 3)));
-  //   console.log(
-  //     $(
-  //       "div.search-legend.bottom > div.paginator.buttongroup.firstpage > span.buttons > a.button.next"
-  //     ).text()
-  //   );
   while (listings.length < parseInt($("span.totalcount").text().slice(0, 3))) {
     await page.goto(url);
-    // await page.waitForNavigation();
     $ = await loader(page);
     console.log(page.url());
     getListings($, listings);
